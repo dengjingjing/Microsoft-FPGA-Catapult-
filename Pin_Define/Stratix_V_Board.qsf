@@ -1,0 +1,834 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 2016  Intel Corporation. All rights reserved.
+# Your use of Intel Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Intel Program License 
+# Subscription Agreement, the Intel Quartus Prime License Agreement,
+# the Intel MegaCore Function License Agreement, or other 
+# applicable license agreement, including, without limitation, 
+# that your use is for the sole purpose of programming logic 
+# devices manufactured by Intel and sold by Intel or its 
+# authorized distributors.  Please refer to the applicable 
+# agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus Prime
+# Version 16.1.0 Build 196 10/24/2016 SJ Standard Edition
+# Date created = 14:04:51  August 29, 2020
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		otma_bringup_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus Prime software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Stratix V"
+set_global_assignment -name DEVICE 5SGSMD5K1F40C1
+set_global_assignment -name TOP_LEVEL_ENTITY otma_bringup
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 16.1.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "14:04:51  AUGUST 29, 2020"
+set_global_assignment -name LAST_QUARTUS_VERSION "19.1.0 Standard Edition"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 256
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name IP_SEARCH_PATHS ../ip_cores
+set_global_assignment -name ENABLE_SIGNALTAP OFF
+
+
+################################################################################
+# pin assignments
+
+# clocks
+set_location_assignment PIN_M23 -to CLK_125M
+set_location_assignment PIN_AF34 -to CLK_PCIE1
+set_location_assignment PIN_AF35 -to "CLK_PCIE1(n)"
+set_location_assignment PIN_AF6 -to CLK_PCIE2
+set_location_assignment PIN_AF5 -to "CLK_PCIE2(n)"
+set_location_assignment PIN_T7 -to CLK_QSFP_OSC
+set_location_assignment PIN_T6 -to "CLK_QSFP_OSC(n)"
+
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to CLK_125M
+set_instance_assignment -name IO_STANDARD HCSL -to CLK_PCIE1
+set_instance_assignment -name IO_STANDARD HCSL -to CLK_PCIE2
+set_instance_assignment -name IO_STANDARD LVDS -to CLK_QSFP_OSC
+
+# LEDSs
+set_location_assignment PIN_A8 -to LEDS[7]
+set_location_assignment PIN_B8 -to LEDS[6]
+set_location_assignment PIN_C8 -to LEDS[5]
+set_location_assignment PIN_C9 -to LEDS[4]
+set_location_assignment PIN_C10 -to LEDS[3]
+set_location_assignment PIN_B10 -to LEDS[2]
+set_location_assignment PIN_A10 -to LEDS[1]
+set_location_assignment PIN_A11 -to LEDS[0]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDS[6]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDS[7]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDS[5]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDS[4]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDS[3]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDS[2]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDS[1]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDS[0]
+
+# I2C (IDT)
+set_location_assignment PIN_N7 -to I2C_IDT_SCL
+set_location_assignment PIN_P7 -to I2C_IDT_SDA
+set_instance_assignment -name IO_STANDARD "2.5 V" -to I2C_IDT_SCL
+set_instance_assignment -name IO_STANDARD "2.5 V" -to I2C_IDT_SDA
+set_instance_assignment -name SLEW_RATE 0 -to I2C_IDT_SDA
+set_instance_assignment -name SLEW_RATE 0 -to I2C_IDT_SCL
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to I2C_IDT_SCL
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to I2C_IDT_SDA
+
+# I2C (QSFP0)
+set_location_assignment PIN_AB24 -to I2C_QSFP0_SCL
+set_location_assignment PIN_AC24 -to I2C_QSFP0_SDA
+set_instance_assignment -name IO_STANDARD "2.5 V" -to I2C_QSFP0_SCL
+set_instance_assignment -name IO_STANDARD "2.5 V" -to I2C_QSFP0_SDA
+set_instance_assignment -name SLEW_RATE 0 -to I2C_QSFP0_SDA
+set_instance_assignment -name SLEW_RATE 0 -to I2C_QSFP0_SCL
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to I2C_QSFP0_SCL
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to I2C_QSFP0_SDA
+
+# I2C (QSFP1)
+set_location_assignment PIN_AA25 -to I2C_QSFP1_SCL
+set_location_assignment PIN_AB25 -to I2C_QSFP1_SDA
+set_instance_assignment -name IO_STANDARD "2.5 V" -to I2C_QSFP1_SCL
+set_instance_assignment -name IO_STANDARD "2.5 V" -to I2C_QSFP1_SDA
+set_instance_assignment -name SLEW_RATE 0 -to I2C_QSFP1_SDA
+set_instance_assignment -name SLEW_RATE 0 -to I2C_QSFP1_SCL
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to I2C_QSFP1_SCL
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to I2C_QSFP1_SDA
+
+# Remote and Local Temperature Sensor I2C
+set_location_assignment PIN_AW26 -to I2C_MON_SCL
+set_location_assignment PIN_AV26 -to I2C_MON_SDA
+set_instance_assignment -name IO_STANDARD "2.5 V" -to I2C_MON_SCL
+set_instance_assignment -name IO_STANDARD "2.5 V" -to I2C_MON_SDA
+set_instance_assignment -name SLEW_RATE 0 -to I2C_MON_SCL
+set_instance_assignment -name SLEW_RATE 0 -to I2C_MON_SDA
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to I2C_MON_SCL
+set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to I2C_MON_SDA
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to I2C_MON_SCL
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to I2C_MON_SDA
+
+# QSFP 0
+# set_location_assignment PIN_U4 -to XCVR_QSFP0_TX[0]
+# set_location_assignment PIN_R4 -to XCVR_QSFP0_TX[1]
+# set_location_assignment PIN_N4 -to XCVR_QSFP0_TX[2]
+# set_location_assignment PIN_L4 -to XCVR_QSFP0_TX[3]
+# set_location_assignment PIN_V2 -to XCVR_QSFP0_RX[0]
+# set_location_assignment PIN_T2 -to XCVR_QSFP0_RX[1]
+# set_location_assignment PIN_P2 -to XCVR_QSFP0_RX[2]
+# set_location_assignment PIN_M2 -to XCVR_QSFP0_RX[3]
+
+# set_location_assignment PIN_M1 -to "XCVR_QSFP0_RX[3](n)"
+# set_location_assignment PIN_P1 -to "XCVR_QSFP0_RX[2](n)"
+# set_location_assignment PIN_T1 -to "XCVR_QSFP0_RX[1](n)"
+# set_location_assignment PIN_V1 -to "XCVR_QSFP0_RX[0](n)"
+# set_location_assignment PIN_L3 -to "XCVR_QSFP0_TX[3](n)"
+# set_location_assignment PIN_N3 -to "XCVR_QSFP0_TX[2](n)"
+# set_location_assignment PIN_R3 -to "XCVR_QSFP0_TX[1](n)"
+# set_location_assignment PIN_U3 -to "XCVR_QSFP0_TX[0](n)"
+
+# set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to XCVR_QSFP0_RX[3]
+# set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to XCVR_QSFP0_RX[2]
+# set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to XCVR_QSFP0_RX[1]
+# set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to XCVR_QSFP0_RX[0]
+# set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to XCVR_QSFP0_TX[3]
+# set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to XCVR_QSFP0_TX[2]
+# set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to XCVR_QSFP0_TX[1]
+# set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to XCVR_QSFP0_TX[0]
+
+# QSFP 1
+# set_location_assignment PIN_J4 -to XCVR_QSFP1_TX[0]
+# set_location_assignment PIN_G4 -to XCVR_QSFP1_TX[1]
+# set_location_assignment PIN_E4 -to XCVR_QSFP1_TX[2]
+# set_location_assignment PIN_C4 -to XCVR_QSFP1_TX[3]
+# set_location_assignment PIN_K2 -to XCVR_QSFP1_RX[0]
+# set_location_assignment PIN_H2 -to XCVR_QSFP1_RX[1]
+# set_location_assignment PIN_F2 -to XCVR_QSFP1_RX[2]
+# set_location_assignment PIN_D2 -to XCVR_QSFP1_RX[3]
+
+# set_location_assignment PIN_J3 -to "XCVR_QSFP1_TX[0](n)"
+# set_location_assignment PIN_G3 -to "XCVR_QSFP1_TX[1](n)"
+# set_location_assignment PIN_E3 -to "XCVR_QSFP1_TX[2](n)"
+# set_location_assignment PIN_C3 -to "XCVR_QSFP1_TX[3](n)"
+# set_location_assignment PIN_K1 -to "XCVR_QSFP1_RX[0](n)"
+# set_location_assignment PIN_H1 -to "XCVR_QSFP1_RX[1](n)"
+# set_location_assignment PIN_F1 -to "XCVR_QSFP1_RX[2](n)"
+# set_location_assignment PIN_D1 -to "XCVR_QSFP1_RX[3](n)"
+
+# set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to XCVR_QSFP1_RX[3]
+# set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to XCVR_QSFP1_RX[2]
+# set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to XCVR_QSFP1_RX[1]
+# set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to XCVR_QSFP1_RX[0]
+# set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to XCVR_QSFP1_TX[3]
+# set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to XCVR_QSFP1_TX[2]
+# set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to XCVR_QSFP1_TX[1]
+# set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to XCVR_QSFP1_TX[0]
+
+
+################################################################################
+# DDR3 memory
+
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to oct_rzqin -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[3] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[3] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[3] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[4] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[4] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[4] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[5] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[5] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[5] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[6] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[6] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[6] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[7] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[7] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[7] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[8] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[8] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[8] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[9] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[9] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[9] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[10] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[10] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[10] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[11] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[11] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[11] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[12] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[12] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[12] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[13] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[13] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[13] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[14] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[14] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[14] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[15] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[15] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[15] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[16] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[16] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[16] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[17] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[17] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[17] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[18] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[18] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[18] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[19] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[19] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[19] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[20] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[20] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[20] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[21] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[21] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[21] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[22] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[22] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[22] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[23] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[23] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[23] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[24] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[24] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[24] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[25] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[25] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[25] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[26] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[26] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[26] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[27] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[27] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[27] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[28] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[28] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[28] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[29] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[29] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[29] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[30] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[30] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[30] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[31] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[31] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[31] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[32] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[32] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[32] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[33] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[33] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[33] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[34] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[34] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[34] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[35] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[35] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[35] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[36] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[36] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[36] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[37] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[37] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[37] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[38] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[38] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[38] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[39] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[39] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[39] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[40] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[40] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[40] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[41] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[41] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[41] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[42] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[42] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[42] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[43] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[43] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[43] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[44] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[44] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[44] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[45] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[45] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[45] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[46] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[46] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[46] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[47] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[47] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[47] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[48] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[48] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[48] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[49] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[49] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[49] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[50] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[50] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[50] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[51] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[51] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[51] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[52] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[52] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[52] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[53] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[53] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[53] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[54] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[54] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[54] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[55] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[55] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[55] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[56] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[56] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[56] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[57] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[57] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[57] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[58] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[58] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[58] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[59] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[59] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[59] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[60] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[60] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[60] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[61] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[61] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[61] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[62] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[62] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[62] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[63] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[63] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[63] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[64] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[64] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[64] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[65] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[65] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[65] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[66] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[66] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[66] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[67] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[67] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[67] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[68] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[68] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[68] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[69] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[69] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[69] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[70] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[70] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[70] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dq[71] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dq[71] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dq[71] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_dqs[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dqs[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dqs[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_dqs[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dqs[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dqs[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_dqs[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dqs[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dqs[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_dqs[3] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dqs[3] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dqs[3] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_dqs[4] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dqs[4] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dqs[4] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_dqs[5] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dqs[5] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dqs[5] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_dqs[6] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dqs[6] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dqs[6] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_dqs[7] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dqs[7] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dqs[7] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_dqs[8] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dqs[8] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dqs[8] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_dqs_n[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dqs_n[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dqs_n[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_dqs_n[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dqs_n[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dqs_n[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_dqs_n[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dqs_n[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dqs_n[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_dqs_n[3] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dqs_n[3] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dqs_n[3] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_dqs_n[4] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dqs_n[4] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dqs_n[4] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_dqs_n[5] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dqs_n[5] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dqs_n[5] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_dqs_n[6] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dqs_n[6] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dqs_n[6] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_dqs_n[7] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dqs_n[7] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dqs_n[7] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_dqs_n[8] -tag __system_ddr3_mem_p0
+set_instance_assignment -name INPUT_TERMINATION "PARALLEL 40 OHM WITH CALIBRATION" -to memory_mem_dqs_n[8] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dqs_n[8] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_ck[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_ck[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "DIFFERENTIAL 1.35-V SSTL" -to memory_mem_ck_n[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_ck_n[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_a[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_a[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_a[10] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_a[10] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_a[11] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_a[11] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_a[12] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_a[12] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_a[13] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_a[13] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_a[14] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_a[14] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_a[15] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_a[15] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_a[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_a[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_a[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_a[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_a[3] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_a[3] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_a[4] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_a[4] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_a[5] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_a[5] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_a[6] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_a[6] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_a[7] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_a[7] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_a[8] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_a[8] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_a[9] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_a[9] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_ba[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_ba[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_ba[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_ba[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_ba[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_ba[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_cs_n[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_cs_n[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_we_n[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_we_n[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_ras_n[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_ras_n[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_cas_n[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_cas_n[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_cke[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_cke[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_odt[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITHOUT CALIBRATION" -to memory_mem_odt[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_reset_n -tag __system_ddr3_mem_p0
+set_instance_assignment -name BOARD_MODEL_FAR_PULLUP_R OPEN -to memory_mem_reset_n -tag __system_ddr3_mem_p0
+set_instance_assignment -name BOARD_MODEL_NEAR_PULLUP_R OPEN -to memory_mem_reset_n -tag __system_ddr3_mem_p0
+set_instance_assignment -name BOARD_MODEL_FAR_PULLDOWN_R OPEN -to memory_mem_reset_n -tag __system_ddr3_mem_p0
+set_instance_assignment -name BOARD_MODEL_NEAR_PULLDOWN_R OPEN -to memory_mem_reset_n -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_reset_n -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dm[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dm[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dm[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dm[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dm[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dm[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dm[3] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dm[3] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dm[4] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dm[4] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dm[5] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dm[5] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dm[6] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dm[6] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dm[7] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dm[7] -tag __system_ddr3_mem_p0
+set_instance_assignment -name IO_STANDARD "SSTL-135" -to memory_mem_dm[8] -tag __system_ddr3_mem_p0
+set_instance_assignment -name OUTPUT_TERMINATION "SERIES 40 OHM WITH CALIBRATION" -to memory_mem_dm[8] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[3] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[4] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[5] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[6] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[7] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[8] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[9] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[10] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[11] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[12] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[13] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[14] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[15] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[16] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[17] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[18] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[19] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[20] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[21] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[22] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[23] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[24] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[25] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[26] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[27] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[28] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[29] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[30] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[31] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[32] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[33] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[34] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[35] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[36] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[37] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[38] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[39] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[40] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[41] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[42] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[43] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[44] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[45] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[46] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[47] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[48] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[49] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[50] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[51] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[52] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[53] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[54] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[55] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[56] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[57] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[58] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[59] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[60] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[61] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[62] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[63] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[64] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[65] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[66] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[67] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[68] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[69] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[70] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dq[71] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dm[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dm[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dm[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dm[3] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dm[4] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dm[5] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dm[6] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dm[7] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dm[8] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dqs[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dqs[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dqs[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dqs[3] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dqs[4] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dqs[5] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dqs[6] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dqs[7] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dqs[8] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dqs_n[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dqs_n[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dqs_n[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dqs_n[3] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dqs_n[4] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dqs_n[5] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dqs_n[6] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dqs_n[7] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_dqs_n[8] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_a[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_a[10] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_a[11] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_a[12] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_a[13] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_a[14] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_a[15] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_a[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_a[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_a[3] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_a[4] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_a[5] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_a[6] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_a[7] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_a[8] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_a[9] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_ba[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_ba[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_ba[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_cs_n[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_we_n[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_ras_n[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_cas_n[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_cke[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_odt[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_reset_n -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_ck[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_ck_n[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name GLOBAL_SIGNAL "DUAL-REGIONAL CLOCK" -to inst_system|ddr3_mem|pll0|pll_avl_clk -tag __system_ddr3_mem_p0
+set_instance_assignment -name GLOBAL_SIGNAL "DUAL-REGIONAL CLOCK" -to inst_system|ddr3_mem|pll0|pll_config_clk -tag __system_ddr3_mem_p0
+set_instance_assignment -name GLOBAL_SIGNAL "GLOBAL CLOCK" -to inst_system|ddr3_mem|pll0|afi_clk -tag __system_ddr3_mem_p0
+set_instance_assignment -name GLOBAL_SIGNAL "DUAL-REGIONAL CLOCK" -to inst_system|ddr3_mem|pll0|pll_hr_clk -tag __system_ddr3_mem_p0
+set_instance_assignment -name GLOBAL_SIGNAL "GLOBAL CLOCK" -to inst_system|ddr3_mem|pll0|pll_p2c_read_clk -tag __system_ddr3_mem_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst_system|ddr3_mem|p0|umemphy|ureset|phy_reset_n -tag __system_ddr3_mem_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst_system|ddr3_mem|s0|sequencer_rw_mgr_inst|rw_mgr_inst|rw_mgr_core_inst|rw_soft_reset_n -tag __system_ddr3_mem_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst_system|ddr3_mem|rst_controller|alt_rst_sync_uq1|altera_reset_synchronizer_int_chain_out -tag __system_ddr3_mem_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst_system|ddr3_mem|if_csr_m0|rst_controller|alt_rst_sync_uq1|altera_reset_synchronizer_int_chain_out -tag __system_ddr3_mem_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst_system|ddr3_mem|p0|umemphy|uread_datapath|reset_n_fifo_wraddress[0] -tag __system_ddr3_mem_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst_system|ddr3_mem|p0|umemphy|uread_datapath|reset_n_fifo_wraddress[1] -tag __system_ddr3_mem_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst_system|ddr3_mem|p0|umemphy|uread_datapath|reset_n_fifo_wraddress[2] -tag __system_ddr3_mem_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst_system|ddr3_mem|p0|umemphy|uread_datapath|reset_n_fifo_wraddress[3] -tag __system_ddr3_mem_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst_system|ddr3_mem|p0|umemphy|uread_datapath|reset_n_fifo_wraddress[4] -tag __system_ddr3_mem_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst_system|ddr3_mem|p0|umemphy|uread_datapath|reset_n_fifo_wraddress[5] -tag __system_ddr3_mem_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst_system|ddr3_mem|p0|umemphy|uread_datapath|reset_n_fifo_wraddress[6] -tag __system_ddr3_mem_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst_system|ddr3_mem|p0|umemphy|uread_datapath|reset_n_fifo_wraddress[7] -tag __system_ddr3_mem_p0
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst_system|ddr3_mem|p0|umemphy|uread_datapath|reset_n_fifo_wraddress[8] -tag __system_ddr3_mem_p0
+set_instance_assignment -name ENABLE_BENEFICIAL_SKEW_OPTIMIZATION_FOR_NON_GLOBAL_CLOCKS ON -to inst_system|ddr3_mem -tag __system_ddr3_mem_p0
+set_instance_assignment -name PLL_COMPENSATION_MODE DIRECT -to inst_system|ddr3_mem|pll0|fbout -tag __system_ddr3_mem_p0
+set_instance_assignment -name MAX_FANOUT 4 -to inst_system|ddr3_mem|p0|umemphy|uio_pads|wrdata_en_qr_to_hr|dataout_r[*][*] -tag __system_ddr3_mem_p0
+set_instance_assignment -name FORM_DDR_CLUSTERING_CLIQUE ON -to inst_system|ddr3_mem|p0|umemphy|*qr_to_hr* -tag __system_ddr3_mem_p0
+set_global_assignment -name USE_DLL_FREQUENCY_FOR_DQS_DELAY_CHAIN ON
+set_global_assignment -name UNIPHY_SEQUENCER_DQS_CONFIG_ENABLE ON
+set_global_assignment -name OPTIMIZE_MULTI_CORNER_TIMING ON
+set_global_assignment -name UNIPHY_TEMP_VER_CODE 1671073000
+set_location_assignment PIN_J28 -to memory_mem_ba[0]
+set_location_assignment PIN_K21 -to memory_mem_ba[1]
+set_location_assignment PIN_L26 -to memory_mem_ba[2]
+set_location_assignment PIN_J27 -to memory_mem_a[0]
+set_location_assignment PIN_J21 -to memory_mem_a[1]
+set_location_assignment PIN_J29 -to memory_mem_a[2]
+set_location_assignment PIN_L28 -to memory_mem_a[3]
+set_location_assignment PIN_P26 -to memory_mem_a[4]
+set_location_assignment PIN_M26 -to memory_mem_a[5]
+set_location_assignment PIN_N25 -to memory_mem_a[6]
+set_location_assignment PIN_P25 -to memory_mem_a[7]
+set_location_assignment PIN_N22 -to memory_mem_a[8]
+set_location_assignment PIN_N26 -to memory_mem_a[9]
+set_location_assignment PIN_K27 -to memory_mem_a[10]
+set_location_assignment PIN_L27 -to memory_mem_a[11]
+set_location_assignment PIN_N27 -to memory_mem_a[12]
+set_location_assignment PIN_M27 -to memory_mem_a[13]
+set_location_assignment PIN_N21 -to memory_mem_a[14]
+set_location_assignment PIN_K28 -to memory_mem_a[15]
+set_location_assignment PIN_L24 -to memory_mem_cas_n[0]
+set_location_assignment PIN_J23 -to memory_mem_ck[0]
+set_location_assignment PIN_J24 -to memory_mem_ck_n[0]
+set_location_assignment PIN_K24 -to memory_mem_cke[0]
+set_location_assignment PIN_N23 -to memory_mem_cs_n[0]
+set_location_assignment PIN_N33 -to memory_mem_dm[0]
+set_location_assignment PIN_C34 -to memory_mem_dm[2]
+set_location_assignment PIN_B34 -to oct_rzqin
+set_location_assignment PIN_M21 -to memory_mem_odt[0]
+set_location_assignment PIN_L21 -to memory_mem_ras_n[0]
+set_location_assignment PIN_L20 -to memory_mem_reset_n
+set_location_assignment PIN_P23 -to memory_mem_we_n[0]
+set_location_assignment PIN_N32 -to memory_mem_dqs[0]
+set_location_assignment PIN_M32 -to memory_mem_dqs_n[0]
+set_location_assignment PIN_R32 -to memory_mem_dq[0]
+set_location_assignment PIN_P32 -to memory_mem_dq[1]
+set_location_assignment PIN_M33 -to memory_mem_dq[2]
+set_location_assignment PIN_T31 -to memory_mem_dq[3]
+set_location_assignment PIN_N34 -to memory_mem_dq[4]
+set_location_assignment PIN_P34 -to memory_mem_dq[5]
+set_location_assignment PIN_L34 -to memory_mem_dq[6]
+set_location_assignment PIN_L33 -to memory_mem_dq[7]
+set_location_assignment PIN_D33 -to memory_mem_dq[16]
+set_location_assignment PIN_C33 -to memory_mem_dq[17]
+set_location_assignment PIN_B32 -to memory_mem_dq[18]
+set_location_assignment PIN_A32 -to memory_mem_dq[19]
+set_location_assignment PIN_A34 -to memory_mem_dq[20]
+set_location_assignment PIN_A35 -to memory_mem_dq[21]
+set_location_assignment PIN_A36 -to memory_mem_dq[22]
+set_location_assignment PIN_A37 -to memory_mem_dq[23]
+set_location_assignment PIN_E34 -to memory_mem_dqs[2]
+set_location_assignment PIN_D34 -to memory_mem_dqs_n[2]
+set_location_assignment PIN_H34 -to memory_mem_dm[1]
+set_location_assignment PIN_G32 -to memory_mem_dq[10]
+set_location_assignment PIN_K33 -to memory_mem_dq[11]
+set_location_assignment PIN_J33 -to memory_mem_dq[12]
+set_location_assignment PIN_G34 -to memory_mem_dq[13]
+set_location_assignment PIN_K34 -to memory_mem_dq[14]
+set_location_assignment PIN_J34 -to memory_mem_dq[15]
+set_location_assignment PIN_F32 -to memory_mem_dq[8]
+set_location_assignment PIN_G33 -to memory_mem_dq[9]
+set_location_assignment PIN_F33 -to memory_mem_dqs[1]
+set_location_assignment PIN_E33 -to memory_mem_dqs_n[1]
+set_location_assignment PIN_E30 -to memory_mem_dm[3]
+set_location_assignment PIN_D31 -to memory_mem_dqs[3]
+set_location_assignment PIN_C31 -to memory_mem_dqs_n[3]
+set_location_assignment PIN_B31 -to memory_mem_dq[31]
+set_location_assignment PIN_A31 -to memory_mem_dq[30]
+set_location_assignment PIN_D30 -to memory_mem_dq[29]
+set_location_assignment PIN_C30 -to memory_mem_dq[28]
+set_location_assignment PIN_F30 -to memory_mem_dq[27]
+set_location_assignment PIN_E31 -to memory_mem_dq[26]
+set_location_assignment PIN_H31 -to memory_mem_dq[25]
+set_location_assignment PIN_G31 -to memory_mem_dq[24]
+set_location_assignment PIN_D28 -to memory_mem_dm[4]
+set_location_assignment PIN_H29 -to memory_mem_dqs[4]
+set_location_assignment PIN_G29 -to memory_mem_dqs_n[4]
+set_location_assignment PIN_E28 -to memory_mem_dq[32]
+set_location_assignment PIN_H28 -to memory_mem_dq[33]
+set_location_assignment PIN_G28 -to memory_mem_dq[34]
+set_location_assignment PIN_C28 -to memory_mem_dq[35]
+set_location_assignment PIN_B28 -to memory_mem_dq[36]
+set_location_assignment PIN_A28 -to memory_mem_dq[37]
+set_location_assignment PIN_B29 -to memory_mem_dq[38]
+set_location_assignment PIN_A29 -to memory_mem_dq[39]
+set_location_assignment PIN_G27 -to memory_mem_dqs[5]
+set_location_assignment PIN_F27 -to memory_mem_dqs_n[5]
+set_location_assignment PIN_E24 -to memory_mem_dqs[6]
+set_location_assignment PIN_E25 -to memory_mem_dqs_n[6]
+set_location_assignment PIN_E27 -to memory_mem_dm[5]
+set_location_assignment PIN_G26 -to memory_mem_dq[40]
+set_location_assignment PIN_F26 -to memory_mem_dq[41]
+set_location_assignment PIN_H26 -to memory_mem_dq[42]
+set_location_assignment PIN_D27 -to memory_mem_dq[43]
+set_location_assignment PIN_B26 -to memory_mem_dq[44]
+set_location_assignment PIN_A26 -to memory_mem_dq[45]
+set_location_assignment PIN_C26 -to memory_mem_dq[46]
+set_location_assignment PIN_C27 -to memory_mem_dq[47]
+set_location_assignment PIN_D25 -to memory_mem_dm[6]
+set_location_assignment PIN_G24 -to memory_mem_dq[48]
+set_location_assignment PIN_F24 -to memory_mem_dq[49]
+set_location_assignment PIN_G25 -to memory_mem_dq[50]
+set_location_assignment PIN_D24 -to memory_mem_dq[51]
+set_location_assignment PIN_C24 -to memory_mem_dq[52]
+set_location_assignment PIN_C25 -to memory_mem_dq[53]
+set_location_assignment PIN_B25 -to memory_mem_dq[54]
+set_location_assignment PIN_A25 -to memory_mem_dq[55]
+set_location_assignment PIN_F23 -to memory_mem_dqs[7]
+set_location_assignment PIN_E23 -to memory_mem_dqs_n[7]
+set_location_assignment PIN_D22 -to memory_mem_dm[7]
+set_location_assignment PIN_H23 -to memory_mem_dq[56]
+set_location_assignment PIN_G23 -to memory_mem_dq[57]
+set_location_assignment PIN_H22 -to memory_mem_dq[58]
+set_location_assignment PIN_C22 -to memory_mem_dq[59]
+set_location_assignment PIN_B22 -to memory_mem_dq[60]
+set_location_assignment PIN_A22 -to memory_mem_dq[61]
+set_location_assignment PIN_B23 -to memory_mem_dq[62]
+set_location_assignment PIN_A23 -to memory_mem_dq[63]
+set_location_assignment PIN_G21 -to memory_mem_dqs[8]
+set_location_assignment PIN_F21 -to memory_mem_dqs_n[8]
+set_location_assignment PIN_D21 -to memory_mem_dm[8]
+set_location_assignment PIN_F20 -to memory_mem_dq[64]
+set_location_assignment PIN_E20 -to memory_mem_dq[65]
+set_location_assignment PIN_G20 -to memory_mem_dq[66]
+set_location_assignment PIN_C20 -to memory_mem_dq[67]
+set_location_assignment PIN_C21 -to memory_mem_dq[68]
+set_location_assignment PIN_E21 -to memory_mem_dq[69]
+set_location_assignment PIN_B20 -to memory_mem_dq[70]
+set_location_assignment PIN_A20 -to memory_mem_dq[71]
+
+################################################################################
+
+set_global_assignment -name QIP_FILE ../qsys/system/synthesis/system.qip
+set_global_assignment -name SDC_FILE ../constraints/timing.sdc
+set_global_assignment -name SYSTEMVERILOG_FILE ../hdl/otma_bringup.sv
+
+
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
